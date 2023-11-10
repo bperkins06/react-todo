@@ -1,24 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+type Todo = {
+  id: number;
+  task: string;
+  isCompleted: boolean;
+};
 
 function App() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [task, setTask] = useState<string>("");
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTask(event.target.value);
+  };
+
+  const handleFormSubmit = (event: React.FormEvent) => {
+      event.preventDefault();
+
+     if (task.trim().length === 0) {
+          alert("Please enter a value!");
+          return;
+      }
+
+      const todo: Todo = {
+          id: Date.now(),
+          task: task,
+          isCompleted: false,
+      };
+
+      setTodos([todo, ...todos]);
+      setTask("");
+  };
+
+  const handleChangeChecked = (todo: Todo) => {
+    const index = todos.indexOf(todo);
+    todo.isCompleted = !todo.isCompleted;
+    todos.splice(index, 1, todo);
+    setTodos([...todos]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={handleFormSubmit}>
+          <input type="text" name="task" onChange={handleInput} />
+          <button type="submit">Submit</button>
+      </form>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.task}
+            {/*
+            <input
+                type="checkbox"
+                checked={todo.isCompleted}
+                onChange={() => handleChangeChecked(todo)}
+            />
+            */}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
