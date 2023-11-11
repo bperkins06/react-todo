@@ -15,10 +15,23 @@ type Todo = {
 };
 
 function App() {
+  // Todos
   const [todos, setTodos] = useState<Todo[]>([]);
   const [task, setTask] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  // Jokes
   const [joke, setJoke] = useState<string>("");
+  // Time
+  const d1: Date = new Date("July 21, 1983 01:15:00");
+  const d2: Date = new Date("July 21, 1983 04:00:30");
+  let diff = Number(d2) - Number(d1);
+  let days = diff / (24*60*60*1000);
+  let hours = (days % 1) * 24;
+  let minutes = (hours % 1) * 60;
+  let secs = (minutes % 1) * 60;
+  [days, hours, minutes, secs] = [Math.floor(days), Math.floor(hours), Math.floor(minutes), Math.round(secs)];
+  let diffTime = days+" "+hours+":"+minutes+":"+secs;
+
 
   useEffect(() => {
     if (inputRef.current) {
@@ -108,6 +121,9 @@ function App() {
             </li>
           ))}
         </ul>
+      </div>
+      <div className="App-time">
+        {diffTime}
       </div>
     </div>
   );
