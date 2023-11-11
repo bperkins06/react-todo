@@ -23,14 +23,14 @@ function App() {
   const [joke, setJoke] = useState<string>("");
   // Time
   const d1: Date = new Date("July 21, 1983 01:15:00");
-  const d2: Date = new Date("July 21, 1983 04:00:30");
+  const d2: Date = new Date("July 21, 1983 04:16:09");
   let diff = Number(d2) - Number(d1);
   let days = diff / (24*60*60*1000);
   let hours = (days % 1) * 24;
   let minutes = (hours % 1) * 60;
   let secs = (minutes % 1) * 60;
   [days, hours, minutes, secs] = [Math.floor(days), Math.floor(hours), Math.floor(minutes), Math.round(secs)];
-  let diffTime = days+" "+hours+":"+minutes+":"+secs;
+  let diffTime = days+" "+("0"+hours).slice(-2)+":"+("0"+minutes).slice(-2)+":"+("0"+secs).slice(-2);
 
 
   useEffect(() => {
